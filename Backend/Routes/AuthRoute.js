@@ -5,5 +5,6 @@ app.post('/CreateAccount',authConntroller.CreateAccount)
 app.post('/UpdateAccount',authConntroller.UpdateAccount)
 app.get('/DisplayData',authConntroller.DisplayData)
 app.post('/DeleteAccount',authConntroller.DeleteAccount)
-app.post('/ResetPass',authConntroller.RequestPassReset)
+app.post('/RequestResetPass',authConntroller.RequestPassReset)
+app.post('/ResetPass',authConntroller.resetPassword)
 module.exports= app

@@ -3,6 +3,7 @@ const crypto = require("crypto");
 const bcrypt = require("bcrypt");
 const JWT = require("jsonwebtoken");
 const Token = require('../Schema/TokenSchema')
+const {sendEmail} = require('../Utils/sendEmail')
 
 const CreateAccount = async (req,res)=>{
    const {email,username,pass,image} = req.body;
@@ -81,9 +82,42 @@ const RequestPassReset = async( req,res)=>{
     createdAt: Date.now(),
   }).save();
 
-  const link = `${clientURL}/passwordReset?token=${resetToken}&id=${auth_schema._id}`;
+  const link = `http://localhost:3002/passwordReset?token=${resetToken}&id=${auth_schema._id}`;
   sendEmail(user.email,"Password Reset Request",{name: auth_schema.username,link: link,},"./template/requestResetPassword.handlebars");
   return link;
 }
 
-module.exports= {CreateAccount,DeleteAccount,UpdateAccount,DisplayData,RequestPassReset}
+
+
+
+    const resetPassword = async (req,res) => {
+        const {userId, token, password} = req.body
+        let passwordResetToken = await Token.findOne({ userId });
+        if (!passwordResetToken) {
+          throw new Error("Invalid or expired password reset token");
+        }
+        const isValid = await bcrypt.compare(token, passwordResetToken.token);
+        if (!isValid) {
+          throw new Error("Invalid or expired password reset token");
+        }
+        const hash = await bcrypt.hash(password, Number(bcryptSalt));
+        await User.updateOne(
+          { _id: userId },
+          { $set: { password: hash } },
+          { new: true }
+        );
+        const user = await User.findById({ _id: userId });
+        sendEmail(
+          user.email,
+          "Password Reset Successfully",
+          {
+            name: user.name,
+          },
+          "./template/resetPassword.handlebars"
+        );
+        await passwordResetToken.deleteOne();
+        return true;
+      };
+
+
+module.exports= {CreateAccount,DeleteAccount,UpdateAccount,DisplayData,RequestPassReset,resetPassword}
