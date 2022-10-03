@@ -5,6 +5,11 @@ const JWT = require("jsonwebtoken");
 const Token = require('../Schema/TokenSchema')
 const {sendEmail} = require('../Utils/sendEmail')
 
+
+const SignInAccount = async (res,req)=>{
+
+}
+
 const CreateAccount = async (req,res)=>{
    const {email,username,pass,image} = req.body;
    console.log('Create Account Call')
@@ -120,4 +125,4 @@ const RequestPassReset = async( req,res)=>{
       };
 
 
-module.exports= {CreateAccount,DeleteAccount,UpdateAccount,DisplayData,RequestPassReset,resetPassword}
+module.exports= {CreateAccount,DeleteAccount,UpdateAccount,DisplayData,RequestPassReset,resetPassword,SignInAccount}

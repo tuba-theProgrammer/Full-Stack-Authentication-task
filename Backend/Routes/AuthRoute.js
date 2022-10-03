@@ -7,4 +7,5 @@ app.get('/DisplayData',authConntroller.DisplayData)
 app.post('/DeleteAccount',authConntroller.DeleteAccount)
 app.post('/RequestResetPass',authConntroller.RequestPassReset)
 app.post('/ResetPass',authConntroller.resetPassword)
+app.post('LoginAccount',authConntroller.SignInAccount)
 module.exports= app
