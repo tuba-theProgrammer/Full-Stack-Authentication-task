@@ -77,7 +77,9 @@ export default function SignIn() {
               variant="contained"
               sx={{ mt: 3, mb: 2 }}
             >
-              Sign In
+                 <Link href="/Dashboard" variant="body2" style={{color:"black"}}>
+              Sign Up
+              </Link> 
             </Button>
             <Grid container>
               <Grid item xs>
@@ -86,7 +88,7 @@ export default function SignIn() {
                 </Link>
               </Grid>
               <Grid item>
-                <Link href="#" variant="body2">
+                <Link href="/" variant="body2">
                   {"Don't have an account? Sign Up"}
                 </Link>
               </Grid>
